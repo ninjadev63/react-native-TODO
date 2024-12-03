@@ -27,7 +27,7 @@ export const todosSlice = createSlice({
         name: action.payload.name,
         isComplete: false,
       };
-      state.push(newTodo);
+      return (state = [...state, newTodo]);
     },
     //* Delete Todo
     deleteTodo: (state, action) => {
