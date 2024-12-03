@@ -1,21 +1,19 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
+import 'react-native-gesture-handler';
 import React from 'react';
+import TodoInput from './src/components/TodoInput';
 import {Provider} from 'react-redux';
-import logger from 'redux-logger';
-import {createStore, applyMiddleware} from 'redux';
-import Todo from './component/Todo';
-import rootReducer from './reducers/rootReducer';
-const store = createStore(rootReducer, applyMiddleware(logger));
+import {store} from './src/store';
+import TodoList from './src/components/TodoList';
+import Toast from 'react-native-toast-message';
 
-const App = () => (
-  <Provider store={store}>
-    <Todo />
-  </Provider>
-);
+const App = () => {
+  return (
+    <Provider store={store}>
+      <Toast />
+      <TodoInput />
+      <TodoList />
+    </Provider>
+  );
+};
+
 export default App;
