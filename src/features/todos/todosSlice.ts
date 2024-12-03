@@ -35,6 +35,7 @@ export const todosSlice = createSlice({
     },
     //* Toggle Todo
     toggleTodo: (state, action) => {
+      // eslint-disable-next-line @typescript-eslint/no-shadow
       const todo = state.find(todo => todo.id === action.payload);
       if (todo) {
         todo.isComplete = !todo.isComplete;
