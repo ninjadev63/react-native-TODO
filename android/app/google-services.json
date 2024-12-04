@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "47822013490",
+    "project_id": "aroma-98cb1",
+    "storage_bucket": "aroma-98cb1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47822013490:android:c56acad7b1e29ad086682b",
+        "android_client_info": {
+          "package_name": "com.todo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBztiCwih16NetS-bF-UZhq4SA19c5TaP0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
