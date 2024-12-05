@@ -1,14 +1,18 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {useAppDispatch, useAppSelector} from '../hooks/storeHook';
+import {useAppDispatch} from '../hooks/storeHook';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {deleteTodo, toggleTodo} from '../features/todos/todosSlice';
+import {
+  deleteTodo,
+  toggleTodo,
+  useFetchDataFromDbQuery,
+} from '../features/todos/todosSlice';
 import Toast from 'react-native-toast-message';
 import type {Todo} from '../interfaces/interface';
 
 const TodoList = () => {
-  const todosState = useAppSelector(state => state.todos);
   const dispatch = useAppDispatch();
+  const {data: tasks} = useFetchDataFromDbQuery();
 
   const OnDeleteTodo = (id: String) => {
     dispatch(deleteTodo(id));
@@ -57,7 +61,7 @@ const TodoList = () => {
   return (
     <View>
       <FlatList
-        data={todosState}
+        data={tasks}
         renderItem={({item}) => renderItem({item})}
         keyExtractor={item => item.id}
       />
