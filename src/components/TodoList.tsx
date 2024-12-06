@@ -1,33 +1,33 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {useAppDispatch} from '../hooks/storeHook';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {
-  deleteTodo,
-  toggleTodo,
   useFetchDataFromDbQuery,
+  useDeleteTaskOnDbMutation,
+  useCompleteTaskOnDbMutation,
 } from '../features/todos/todosSlice';
-import Toast from 'react-native-toast-message';
 import type {Todo} from '../interfaces/interface';
+import {setLoading} from '../features/todos/todosSlice';
+import {useAppDispatch} from '../hooks/storeHook';
 
 const TodoList = () => {
+  const {data: tasks, refetch} = useFetchDataFromDbQuery();
   const dispatch = useAppDispatch();
-  const {data: tasks} = useFetchDataFromDbQuery();
 
-  const OnDeleteTodo = (id: String) => {
-    dispatch(deleteTodo(id));
-    Toast.show({
-      type: 'error',
-      text1: 'Todo was deleted successfully',
-    });
+  const [deleteTaskOnDb] = useDeleteTaskOnDbMutation();
+  const OnDeleteTodo = async (id: string) => {
+    dispatch(setLoading(true));
+    await deleteTaskOnDb(id).unwrap(); // Wait for the mutation to complete
+    refetch();
+    dispatch(setLoading(false));
   };
 
-  const onToggleTodo = (id: String) => {
-    dispatch(toggleTodo(id));
-    Toast.show({
-      type: 'success',
-      text1: 'Todo was completed successfully',
-    });
+  const [toggleTaskOnDb] = useCompleteTaskOnDbMutation();
+  const onToggleTodo = async (id: string) => {
+    dispatch(setLoading(true));
+    await toggleTaskOnDb(id).unwrap();
+    refetch();
+    dispatch(setLoading(false));
   };
 
   const renderItem = ({item}: {item: Todo}) => {

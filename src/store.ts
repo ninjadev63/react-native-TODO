@@ -1,10 +1,10 @@
 import {configureStore} from '@reduxjs/toolkit';
-import todosReducer, {fireStoreApi} from './features/todos/todosSlice';
+import appSlice, {fireStoreApi} from './features/todos/todosSlice';
 import {setupListeners} from '@reduxjs/toolkit/query/react';
 
 export const store = configureStore({
   reducer: {
-    todos: todosReducer,
+    app: appSlice,
     [fireStoreApi.reducerPath]: fireStoreApi.reducer,
   },
   middleware: getDefaultMiddlware =>

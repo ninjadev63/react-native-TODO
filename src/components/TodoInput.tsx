@@ -7,15 +7,21 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import uuid from 'react-native-uuid';
-import {useAppDispatch} from '../hooks/storeHook';
-import {addTodo} from '../features/todos/todosSlice';
+import {useCreateNewTaskOnDbMutation} from '../features/todos/todosSlice';
 import Toast from 'react-native-toast-message';
+import {Todo} from '../interfaces/interface';
+import {setLoading} from '../features/todos/todosSlice';
+import {useAppDispatch} from '../hooks/storeHook';
 
 const TodoInput = () => {
   const [todo, setTodo] = useState('');
   const dispatch = useAppDispatch();
 
-  const onSubmitTodo = () => {
+  // Mutation hook for updating the board in the database
+  const [createNewTaskOnDb] = useCreateNewTaskOnDbMutation();
+
+  const onSubmitTodo = async () => {
+    dispatch(setLoading(true));
     if (todo.trim() === '') {
       Toast.show({
         type: 'info',
@@ -24,19 +30,14 @@ const TodoInput = () => {
       });
       return;
     }
-    const newTodo = {
+    const newTodo: Todo = {
       id: uuid.v4(),
       name: todo.trim(),
-      isCompleted: false,
+      isComplete: false,
     };
-    Toast.show({
-      type: 'success',
-      text1: `${newTodo.name} todo was added successfully`,
-    });
-
-    dispatch(addTodo(newTodo));
-
+    await createNewTaskOnDb(newTodo).unwrap();
     setTodo('');
+    dispatch(setLoading(false));
   };
 
   return (

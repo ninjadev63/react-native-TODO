@@ -6,17 +6,14 @@ import {
   getDocs,
   getFirestore,
 } from '@react-native-firebase/firestore';
-import {useAppDispatch} from '../hooks/storeHook';
 import {data as initialData} from '../utils/data';
 import Toast from 'react-native-toast-message';
-import {setWasSeeded} from '../features/todos/todosSlice';
 
 interface IProps {
   setIsSeeding: (value: boolean) => void;
 }
 
 const SeederLoading = ({setIsSeeding}: IProps) => {
-  const dispatch = useAppDispatch();
   const fireStore = getFirestore();
 
   const runSeeder = async () => {
@@ -32,14 +29,12 @@ const SeederLoading = ({setIsSeeding}: IProps) => {
         for (const task of initialData) {
           await addDoc(docRef, task);
         }
-
-        dispatch(setWasSeeded(true));
       } catch (e) {
         Toast.show({
           type: 'error',
           text1: 'The seeding process failed.',
+          text2: String(e),
         });
-        console.log('Error seeding: ', e);
       }
 
       setIsSeeding(false);
